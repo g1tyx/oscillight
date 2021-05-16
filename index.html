@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title>Oscillight</title>
+        <meta name="title" content="Oscillight">
+        <meta name="description" content="Made for IGJ 2021">
+
+        <link rel="icon" href="src/icon.png">
+        <link rel="stylesheet" href="stylesheets/core.css">
+        <link rel="stylesheet" href="stylesheets/styles.css">
+        <link rel="stylesheet" href="stylesheets/colors.css">
+        <link rel="stylesheet" href="stylesheets/loading.css">
+        <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css" integrity="sha512-6S2HWzVFxruDlZxI3sXOZZ4/eJ8AcxkQH1+JjSe/ONCEqR9L4Ysq5JdT5ipqtzU7WHalNwzwBv+iE51gNHJNqQ==" crossorigin="anonymous" />
+    </head>
+    <body>
+        <div class="loading">
+            Calculating...<br>
+            This shouldn't take longer than a few seconds...<br>
+            <div class="fail-save" style="display: none;">
+                <h2>Emergency save recovery system</h2>
+                This appears because the loading took too long.<br>
+                Please press F12 and open the console to see if any error shows up.<br>
+                If error appears, please take a screenshot and send it to me.<br>
+                Please also include your save file when you send the screenshot (as it can speed up the debugging process).<br>
+                You can export your game by pressing "export" button<br>
+                Once you are done, press "hard reset" button to reset the game.<br><br>
+                <button onclick="EMERGENCY.export()" style="width: 100px; height: 50px;">
+                    Export
+                </button>
+                <button onclick="EMERGENCY.reset()" style="width: 100px; height: 50px;">
+                    Hard Reset
+                </button>
+            </div>
+        </div>
+        <div class="mask">
+        </div>
+        <div id="app">
+            <background-animation :game="game"></background-animation>
+
+            <header>
+                <div>
+                    Light: {{format(game.light)}} {{buffDisplay}}
+                </div>
+                <div v-if="game.interference.current !== 0">
+                    Interference:
+                    <span v-for="c in challenges" :class="c.color" class="c-display">{{hasCBit(c.id) ? 1 : 0}}</span>
+                </div>
+                <div v-if="game.unlocks.rainbowUpgrades">
+                    Rainbow: {{format(game.rainbow, 2, 0)}}
+                </div>
+            </header>
+
+            <main class="main">
+                <div class="nav-bar">
+                    <button v-for="(tab, i) in tabs" @click="switchTab(i)">
+                        {{tab}}
+                    </button>
+                </div>
+
+                <div class="tab-con">
+                    <component v-for="tab in tabs"
+                               v-show="currentTab == tab"
+                               :is="toTabComponent(tab)"
+                               :game="game"
+                               :ref="tab"
+                               :key="tab"></component>
+                </div>
+                <win-modal v-if="win && !hideWin">
+                    You have reached the end of the game.<br><br>
+                    Big thanks to my friend for testing the game.<br><br>
+                    You can either continue playing, reset with a bonus or reset without bonus.<br><br>
+                    <template #button>
+                        <button class="green" @click="con">
+                            Continue playing
+                        </button>
+                        <button class="yellow" @click="showBuffModal(true)">
+                            Replay with x2 light bonus
+                        </button>
+                        <button class="red" @click="showBuffModal(false)">
+                            Replay without bonus
+                        </button>
+                        <span>
+                            Created by Buck | Made for IGJ 2021
+                        </span>
+                    </template>
+                </win-modal>
+                <confirmation-modal v-if="buffModal" @yes="replay" @no="hideBuffModal">
+                    <template #header>
+                        <span :class="buffReset ? 'yellow' : 'red'">Replay {{buffReset ? "with" : "without"}} bonus</span>
+                    </template>
+
+                    Are you sure you want to replay the game{{buffReset ? "" : " without bonus"}}?
+                </confirmation-modal>
+            </main>
+         </div>
+
+         <script src="javascripts/libraries/vue.min.js"></script>
+         <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+			     integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+			     crossorigin="anonymous"></script>
+         <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
+         <script src="javascripts/libraries/break_infinity.min.js"></script>
+
+         <script src="javascripts/components/Background.js"></script>
+         <script src="javascripts/components/BaseMenuButton.js"></script>
+         <script src="javascripts/components/TooltipButton.js"></script>
+
+         <script src="javascripts/components/BaseModal.js"></script>
+         <script src="javascripts/components/AlertModal.js"></script>
+         <script src="javascripts/components/ConfirmationModal.js"></script>
+         <script src="javascripts/components/PromptModal.js"></script>
+         <script src="javascripts/components/WinModal.js"></script>
+
+         <script src="javascripts/components/OscillationTab.js"></script>
+         <script src="javascripts/components/BaseProgressBar.js"></script>
+         <script src="javascripts/components/OscillationTabUpgrade.js"></script>
+
+         <script src="javascripts/components/AmplificationTab.js"></script>
+         <script src="javascripts/components/AmplificationTabLens.js"></script>
+
+         <script src="javascripts/components/DispersionTab.js"></script>
+         <script src="javascripts/components/PrismSubtab.js"></script>
+         <script src="javascripts/components/UpgradesSubtab.js"></script>
+         <script src="javascripts/components/DispersionTabUpgrade.js"></script>
+
+         <script src="javascripts/components/InterferenceTab.js"></script>
+         <script src="javascripts/components/ConstructiveSubtab.js"></script>
+         <script src="javascripts/components/InterferenceTabUpgrade.js"></script>
+         <script src="javascripts/components/DestructiveSubtab.js"></script>
+         <script src="javascripts/components/CompletionsSubtab.js"></script>
+
+         <script src="javascripts/components/AchievementsTab.js"></script>
+         <script src="javascripts/components/Achievement.js"></script>
+
+         <script src="javascripts/components/SettingsTab.js"></script>
+
+         <script src="javascripts/database/wave.js"></script>
+         <script src="javascripts/database/laser.js"></script>
+         <script src="javascripts/database/prism.js"></script>
+         <script src="javascripts/database/challenge.js"></script>
+         <script src="javascripts/database/achievements.js"></script>
+
+         <script src="javascripts/gameloop.js"></script>
+         <script src="javascripts/emergency.js"></script>
+         <script src="javascripts/game.js"></script>
+         <script src="javascripts/update.js"></script>
+         <script src="javascripts/util.js"></script>
+         <script src="javascripts/index.js"></script>
+    </body>
+</html>
