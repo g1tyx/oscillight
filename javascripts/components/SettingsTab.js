@@ -84,7 +84,7 @@ Vue.component("settings-tab", {
                 <span class="warning">Wipe all data</span>
             </template>
 
-            Are you sure you want to wipe all user data? <span class="warning">This cannot be undone!</span>
+            您确定要擦除所有用户数据吗？ <span class="warning">This cannot be undone!</span>
         </confirmation-modal>
 
         <prompt-modal v-if="showImportModal" @submit="importSave" @close="showImportModal = false">
