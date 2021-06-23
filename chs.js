@@ -112,7 +112,7 @@ var cnItems = {
     'Continue playing': '继续游戏',
     'Replay with x2 light bonus': '重玩开局2倍光加成',
     'Replay without bonus': '重玩无奖励',
-    '': '',
+    'Complete the interference!': '完成干扰！',
     '': '',
     '': '',
     '': '',
