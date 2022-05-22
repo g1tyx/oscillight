@@ -127,14 +127,17 @@ const DATABASE_CHALLENGE = {
     applyUpg(g, id, def = 1) {
         return this.hasUpg(g, id) ? this.upgrades.filter(u => id === u.id)[0].current(g) : def
     },
+    hasWon(g) {
+        return this.hasUpg(g, 16)
+    },
     /*
     Upgrade format:
     REQUIRED
     id: number, must be unique
     tier: n-th row the upgrade will be on
-    name: string, self explainatory
-    desc: string, self explainatory
-    cost: number, self explainatory
+    name: string, self explanatory
+    desc: string, self explanatory
+    cost: number, self explanatory
 
     OPTIONAL
     current: function that accepts g as input,
@@ -172,7 +175,7 @@ const DATABASE_CHALLENGE = {
             id: 4,
             tier: 1,
             name: "Infinity",
-            desc: "The stablization energy level is softcapped instead of hardcapped",
+            desc: "The stabilization energy level is softcapped instead of hardcapped",
             cost: 1
         },
         {
@@ -196,7 +199,7 @@ const DATABASE_CHALLENGE = {
             id: 7,
             tier: 2,
             parent: 2,
-            name: "htootwaS",
+            name: "Pulse",
             desc: "Multiplier to light, decreases based on time in current activation",
             current: (g) => Math.max(1, Math.pow(10, 10 - g.stats.currentTime.prism / 120)),
             cost: 1

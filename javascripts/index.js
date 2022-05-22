@@ -34,7 +34,10 @@ var app = new Vue({
             return DATABASE_CHALLENGE.challenges
         },
         win() {
-            return DATABASE_CHALLENGE.hasUpg(this.game, 16)
+            return DATABASE_CHALLENGE.hasWon(this.game);
+        },
+        getWinTime() {
+            return toTime(this.game.stats.currentTime.meta);
         },
         buffDisplay() {
             if (this.game.buffs === 0) return ""
@@ -80,7 +83,7 @@ var app = new Vue({
             this.currentTab = this.tabs[i];
             scroll(0,0); //scroll to top
         },
-        setIntevals() {
+        setIntervals() {
             setInterval(this.loop, 50);
 
             setInterval(() => {
@@ -152,8 +155,8 @@ var app = new Vue({
         setTimeout(() => {
             var body = document.querySelector("body");
             body.classList.add("ready");
-            this.setIntevals();
-        }, 500) // for the theme to apply propertly, and also to prevent sudden transition
+            this.setIntervals();
+        }, 500) // for the theme to apply properly, and also to prevent sudden transition
     }
 })
 

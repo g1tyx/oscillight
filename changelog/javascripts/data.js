@@ -2,6 +2,32 @@ const DATA = {
     header: "Changelog",
     changelogs: [
         {
+            version: "1.1.2",
+            description: "Mini QoL update",
+            changes: [
+                {
+                    header: "Changes:",
+                    list: [
+                        "Added 2 new modes to prism activation",
+                        "Added a couple of stats"
+                    ]
+                }
+            ]
+        },
+        {
+            version: "1.1.1",
+            description: "Minor text update",
+            changes: [
+                {
+                    header: "Changes:",
+                    list: [
+                        "Fixed some typos",
+                        "Changed a couple of descriptions"
+                    ]
+                }
+            ]
+        },
+        {
             version: "1.1",
             description: "Interference remake",
             changes: [

@@ -70,14 +70,14 @@
                                :key="tab"></component>
                 </div>
                 <win-modal v-if="win && !hideWin">
-                    You have reached the end of the game.<br><br>
+                    You have completed the game in: <span class="green">{{getWinTime}}</span><br><br>
                     Big thanks to my friend for testing the game.<br><br>
                     You can either continue playing, reset with a bonus or reset without bonus.<br><br>
                     <template #button>
                         <button class="green" @click="con">
                             Continue playing
                         </button>
-                        <button class="yellow" @click="showBuffModal(true)">
+                        <button class="gold" @click="showBuffModal(true)">
                             Replay with x2 light bonus
                         </button>
                         <button class="red" @click="showBuffModal(false)">
@@ -90,7 +90,7 @@
                 </win-modal>
                 <confirmation-modal v-if="buffModal" @yes="replay" @no="hideBuffModal">
                     <template #header>
-                        <span :class="buffReset ? 'yellow' : 'red'">Replay {{buffReset ? "with" : "without"}} bonus</span>
+                        <span :class="buffReset ? 'gold' : 'red'">Replay {{buffReset ? "with" : "without"}} bonus</span>
                     </template>
 
                     您确定要重玩游戏吗{{buffReset ? "" : " 无奖励"}}?
@@ -152,9 +152,17 @@
 <link rel="stylesheet" href="//g8hh.com/static/css/kf.css" type="text/css" media="screen" charset="utf-8">
 <script src="//g8hh.com/static/js/kf.js"></script>
 <!-- 客服 结束 -->
-   <!--站长统计-->
+<!--站长统计-->
     <div style="display: none">
-        <script type="text/javascript" src="https://v1.cnzz.com/z_stat.php?id=1279902880&web_id=1279902880"></script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?dbb7ff142f4d4b68546c93b9cd6e9328";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
     </div>
     </body>
 </html>
